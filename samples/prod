@@ -1,0 +1,4 @@
+
+MOUNT=/media SSH_ID=id_rsa secrets smb_mnt secrets ssh_id
+export ENV="PROD"
+function finally { unset ENV; echo "$CAGE:env cleaned"; }

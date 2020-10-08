@@ -1,0 +1,39 @@
+#!/usr/bin/bash 
+
+#declaring 
+
+[ -z "$PASS" ] && read -s -p "password ? #" PASS
+export PASS
+export RUSER=${RUSER-$USER}
+export DST=${MOUNT-/windows/}
+
+# janitoring
+function clean {
+    for v in PASS RUSER DST; do unset "$v"; done;
+    echo "$CAGE:env cleaned";
+}
+function finally { echo "unmount $MOUNT"; sudo umount ${DST}; clean; }
+export USAGE=$( cat <<EOF
+
+mounting windows share
+======================
+
+?= asked if ""
+-= take env if exists else have default
+/= can be set in the env, not exported, but used 
+PASS ?= pass for mounting windows,
+USER = local USER
+RUSER = RUSER if set else default to local user 
+DST,IP /= IP to be mounted, mount point
+EOF
+
+)
+
+
+#doing 
+echo trying to mount $DST
+sudo mount.cifs "\\\\BADASS\\USERS" $DST -o ip=${IP-192.168.1.32},user=$RUSER,pass=$PASS,uid=$USER,gid=$USER
+
+
+mount | grep "$( dirname "${DST}/w" )" &>/dev/null && echo "**$DST mounted**" || echo "**$DST no mounted**"
+

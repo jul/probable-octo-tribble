@@ -1,0 +1,20 @@
+#!/usr/bin/bash 
+
+# janitoring
+function clean { unset SSH_ID; echo "$CAGE:env cleaned"; }
+function finally { ssh-add -d "${SSH_ID}.pub"; clean; }
+export USAGE="load SSH_ID in your ssh agent"
+
+# EXPORTING
+
+export SSH_ID="$HOME/.ssh/${SSH_ID-id_ed25519}"
+export CAGE="SSH($( basename ${SSH_ID}))"
+
+# doing
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    eval $( ssh-agent  )
+fi
+# inform
+ssh-add "${SSH_ID}" \
+    || ( echo "failed to add $SSH_ID" && exit 1 ) \
+    && echo "${SSH_ID}" added
