@@ -9,7 +9,7 @@ export USAGE="load SSH_ID in your ssh agent"
 
 export SSH_ID="$HOME/.ssh/${SSH_ID-id_ed25519}"
 #customizing cage name
-export CAGE="SSH($( basename ${SSH_ID}))"
+CAGE="SSH($( basename ${SSH_ID}))"
 
 # doing
 if [ -z "$SSH_AUTH_SOCK" ]; then
