@@ -1,0 +1,1 @@
+printf "%s" "file with \\n in name"
