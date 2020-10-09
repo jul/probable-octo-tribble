@@ -1,5 +1,3 @@
-[alt useless live demo](tty.gif "Demo")
-
 # Secrets
 
 a bash à la virtualenv to handle environment variable (sometimes secrets)
